@@ -6,6 +6,7 @@ public class SprayApar : MonoBehaviour
     public Transform nozzle; // Drag your nozzle object here in the Inspector
     public ParticleSystem foamParticles;
     
+    //spraying mechanics
     [Header("Settings")]
     public float range = 10f;
     public LayerMask detectableLayers;
@@ -13,7 +14,7 @@ public class SprayApar : MonoBehaviour
     [SerializeField] private int rayCount = 5; // Number of rays per frame
     [SerializeField] private float spreadAngle = 30.0f; // Degrees of spread
 
-    void Update()
+    private void Update()
     {
         if (Input.GetButton("Fire1"))
         {
