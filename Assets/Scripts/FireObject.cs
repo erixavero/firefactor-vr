@@ -3,7 +3,7 @@ using UnityEngine;
 public class FireObject : MonoBehaviour
 {
     [SerializeField] private float fireHealth = 1.0f;
-    [SerializeField] private float extinguishRate = 0.5f;
+    //[SerializeField] private float extinguishRate = 0.5f; // Ini variable ga kepake coy....
 
     private ParticleSystem[] allFireParticles;
     private float[] originalEmissionRates;
