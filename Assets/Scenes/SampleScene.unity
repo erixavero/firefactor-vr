@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &57744641 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2373385231444089613, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+  m_PrefabInstance: {fileID: 1793447066902790099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &122546209
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,6 +788,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862774632}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &926271397 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1600743819037100305, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
+  m_PrefabInstance: {fileID: 1840915599595334392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1022276970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,6 +1259,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1832071752232087562, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: m_TagString
+      value: ExtinguisherSpray
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.m_Bounce.scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.m_Dampen.scalar
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: CollisionModule.m_Planes.Array.data[0]
+      value: 
+      objectReference: {fileID: 926271397}
     - target: {fileID: 6754868558061787046, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
       propertyPath: m_InteractionManager
       value: 
@@ -1297,11 +1339,45 @@ PrefabInstance:
       propertyPath: m_Name
       value: extinguisher
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5764060253308982774, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7822988176778675917, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1793447066902790102}
   m_SourcePrefab: {fileID: 100100000, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+--- !u!1 &1793447066902790100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7822988176778675917, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+  m_PrefabInstance: {fileID: 1793447066902790099}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1793447066902790101 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5022422724999032652, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+  m_PrefabInstance: {fileID: 1793447066902790099}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1793447066902790102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793447066902790100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4e430527a1e4a4cb7adafa456b65b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprayParticles: {fileID: 1793447066902790101}
+  sprayAudio: {fileID: 0}
+  nozzlePoint: {fileID: 57744641}
+  maxSprayDistance: 5
+  fireLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  shrinkSpeed: 0.5
 --- !u!1001 &1840915599595334392
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1313,6 +1389,18 @@ PrefabInstance:
     - target: {fileID: 38481420614991070, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
       propertyPath: m_Name
       value: fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 38481420614991070, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 217248501820890780, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
+      propertyPath: minScale
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 217248501820890780, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
+      propertyPath: shrinkRate
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1600743819037100305, guid: 6bbe640e85327ba47aabc50318a97ea8, type: 3}
       propertyPath: m_LocalPosition.x
