@@ -93,11 +93,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2800fbce10fbd5a46a6156a187187192, type: 3}
---- !u!198 &4858447748876784397 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 7725718098397156094, guid: 2800fbce10fbd5a46a6156a187187192, type: 3}
-  m_PrefabInstance: {fileID: 2908181665565901299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7263639536660815096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5518684694741949707, guid: 2800fbce10fbd5a46a6156a187187192, type: 3}
@@ -188,9 +183,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e032a9d6286c82a4b91a63dd740fe976, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3715896672428363121}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e032a9d6286c82a4b91a63dd740fe976, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5269661150774847927}
   m_SourcePrefab: {fileID: 100100000, guid: e032a9d6286c82a4b91a63dd740fe976, type: 3}
 --- !u!4 &6990871158899564598 stripped
 Transform:
@@ -244,23 +236,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.21813637
   m_Center: {x: -0.30000007, y: 0.9, z: 0}
---- !u!114 &5269661150774847927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7660412870215809676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c4e430527a1e4a4cb7adafa456b65b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nozzle: {fileID: 2751809239055886156}
-  foamParticles: {fileID: 4858447748876784397}
-  range: 10
-  detectableLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  rayCount: 5
-  spreadAngle: 30

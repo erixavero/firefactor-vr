@@ -3,32 +3,29 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class FireExtinguisher : MonoBehaviour
 {
+    [Header("Safety Pin Settings")]
+    [Tooltip("Is the safety pin currently attached?")]
+    public bool pinAttached = true;
+    [Tooltip("Optional sound when trying to spray with the pin still in.")]
+    public AudioSource pinBlockedAudio;
+
     [Header("Extinguisher Settings")]
-    [Tooltip("The particle system representing the extinguishing spray.")]
     public ParticleSystem sprayParticles;
-    
-    [Tooltip("Audio source for spraying sound.")]
     public AudioSource sprayAudio;
-    
-    [Tooltip("The point where the spray comes out (create an empty GameObject at the nozzle).")]
     public Transform nozzlePoint;
 
     [Header("Raycast Settings")]
-    [Tooltip("Maximum distance the spray can reach.")]
     public float maxSprayDistance = 5f;
-    
-    [Tooltip("The layer mask for your fire objects.")]
     public LayerMask fireLayer;
-    
-    [Tooltip("How fast the fire shrinks while being sprayed.")]
     public float shrinkSpeed = 0.5f;
 
     private XRGrabInteractable grabInteractable;
-    
-    // States to track input from both VR and Mouse
     private bool isVrShooting = false;
     private bool isMouseShooting = false;
     private bool isShooting = false;
+    
+    // Prevents mouse click from triggering spray if already held down when pressing Play
+    private bool mouseWasReleased = false;
 
     void Awake()
     {
@@ -61,11 +58,26 @@ public class FireExtinguisher : MonoBehaviour
 
     void Update()
     {
-        // Check for Left Mouse Button (Hold to spray for testing)
-        isMouseShooting = Input.GetMouseButton(0);
+        // Check if mouse button is released at least once after starting game
+        if (!Input.GetMouseButton(0))
+        {
+            mouseWasReleased = true;
+        }
 
-        // We shoot if either VR trigger is pulled OR the mouse button is held down
+        // Only allow mouse shooting if the button was actually released first
+        isMouseShooting = mouseWasReleased && Input.GetMouseButton(0);
+
         bool shouldShoot = isVrShooting || isMouseShooting;
+
+        // Prevent shooting if the safety pin is still attached!
+        if (shouldShoot && pinAttached)
+        {
+            if (!isShooting && pinBlockedAudio != null && !pinBlockedAudio.isPlaying)
+            {
+                pinBlockedAudio.Play();
+            }
+            shouldShoot = false; 
+        }
 
         if (shouldShoot && !isShooting)
         {
@@ -76,11 +88,18 @@ public class FireExtinguisher : MonoBehaviour
             StopSpray();
         }
 
-        // Perform the raycast logic while spraying
         if (isShooting)
         {
             PerformSprayRaycast();
         }
+    }
+
+    // Called by the safety pin script when pulled out
+    public void RemovePin()
+    {
+        pinAttached = false;
+        isVrShooting = false; 
+        Debug.Log("Safety pin removed! Extinguisher unlocked.");
     }
 
     private void StartSpray()
@@ -94,16 +113,14 @@ public class FireExtinguisher : MonoBehaviour
     {
         isShooting = false;
         if (sprayParticles != null && sprayParticles.isPlaying) sprayParticles.Stop();
-        if (sprayAudio != null && !sprayAudio.isPlaying) sprayAudio.Stop();
+        if (sprayAudio != null && sprayAudio.isPlaying) sprayAudio.Stop();
     }
 
     private void PerformSprayRaycast()
     {
-        // Use nozzlePoint if assigned, otherwise use the extinguisher's position/rotation
         Transform origin = nozzlePoint != null ? nozzlePoint : transform;
-
         RaycastHit hit;
-        float sphereRadius = 0.3f; // Thickness of the spray beam
+        float sphereRadius = 0.3f;
 
         if (Physics.SphereCast(origin.position, sphereRadius, origin.forward, out hit, maxSprayDistance, fireLayer))
         {
