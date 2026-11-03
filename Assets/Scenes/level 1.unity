@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -978,6 +978,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1523310529 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3034823831645582044, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+  m_PrefabInstance: {fileID: 1793447066902790099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1761209873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1740,6 +1745,14 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 1460562094}
+    - target: {fileID: 6754868558061787046, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: m_Colliders.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6754868558061787046, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
+      propertyPath: m_Colliders.Array.data[0]
+      value: 
+      objectReference: {fileID: 1523310529}
     - target: {fileID: 7483582768778648695, guid: 44f04909b5aba3e4e81165dfacac8511, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.934
