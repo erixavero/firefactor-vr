@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
+using System.Collections;
 
 public class FireExtinguisher : MonoBehaviour
 {
@@ -8,6 +10,11 @@ public class FireExtinguisher : MonoBehaviour
     public bool pinAttached = true;
     [Tooltip("Optional sound when trying to spray with the pin still in.")]
     public AudioSource pinBlockedAudio;
+
+    [Header("UI Feedback")]
+    [Tooltip("TextMeshPro UI text element for warning messages.")]
+    public TextMeshProUGUI warningText;
+    private Coroutine hideWarningCoroutine;
 
     [Header("Extinguisher Settings")]
     public ParticleSystem sprayParticles;
@@ -19,17 +26,26 @@ public class FireExtinguisher : MonoBehaviour
     public LayerMask fireLayer;
     public float shrinkSpeed = 0.5f;
 
+    [Header("Haptic Settings")]
+    [Range(0f, 1f)] public float blockedHapticAmplitude = 0.5f;
+    public float blockedHapticDuration = 0.2f;
+    [Range(0f, 1f)] public float sprayHapticAmplitude = 0.2f;
+    private float sprayHapticTimer = 0f;
+    private float sprayHapticInterval = 0.1f; 
+
     private XRGrabInteractable grabInteractable;
     private bool isVrShooting = false;
     private bool isMouseShooting = false;
     private bool isShooting = false;
-    
-    // Prevents mouse click from triggering spray if already held down when pressing Play
     private bool mouseWasReleased = false;
 
     void Awake()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
+        }
     }
 
     void OnEnable()
@@ -58,23 +74,25 @@ public class FireExtinguisher : MonoBehaviour
 
     void Update()
     {
-        // Check if mouse button is released at least once after starting game
         if (!Input.GetMouseButton(0))
         {
             mouseWasReleased = true;
         }
 
-        // Only allow mouse shooting if the button was actually released first
         isMouseShooting = mouseWasReleased && Input.GetMouseButton(0);
-
         bool shouldShoot = isVrShooting || isMouseShooting;
 
-        // Prevent shooting if the safety pin is still attached!
         if (shouldShoot && pinAttached)
         {
-            if (!isShooting && pinBlockedAudio != null && !pinBlockedAudio.isPlaying)
+            if (!isShooting)
             {
-                pinBlockedAudio.Play();
+                if (pinBlockedAudio != null && !pinBlockedAudio.isPlaying)
+                {
+                    pinBlockedAudio.Play();
+                }
+
+                TriggerHaptic(blockedHapticAmplitude, blockedHapticDuration);
+                ShowWarningMessage("Spray is locked, pull the pin first!");
             }
             shouldShoot = false; 
         }
@@ -90,21 +108,70 @@ public class FireExtinguisher : MonoBehaviour
 
         if (isShooting)
         {
+            sprayHapticTimer += Time.deltaTime;
+            if (sprayHapticTimer >= sprayHapticInterval)
+            {
+                sprayHapticTimer = 0f;
+                TriggerHaptic(sprayHapticAmplitude, sprayHapticInterval);
+            }
+
             PerformSprayRaycast();
         }
     }
 
-    // Called by the safety pin script when pulled out
     public void RemovePin()
     {
         pinAttached = false;
         isVrShooting = false; 
+        
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
+        }
+
         Debug.Log("Safety pin removed! Extinguisher unlocked.");
+    }
+
+    private void ShowWarningMessage(string message)
+    {
+        if (warningText == null) return;
+
+        warningText.text = message;
+        warningText.gameObject.SetActive(true);
+
+        if (hideWarningCoroutine != null)
+        {
+            StopCoroutine(hideWarningCoroutine);
+        }
+        hideWarningCoroutine = StartCoroutine(HideWarningAfterDelay(5f));
+    }
+
+    private IEnumerator HideWarningAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (warningText != null)
+        {
+            warningText.gameObject.SetActive(false);
+        }
+    }
+
+    private void TriggerHaptic(float amplitude, float duration)
+    {
+        if (grabInteractable != null && grabInteractable.isSelected)
+        {
+            var interactor = grabInteractable.firstInteractorSelecting;
+            // Fixed: Removed the invalid .Interactors sub-namespace prefix here
+            if (interactor is XRBaseControllerInteractor controllerInteractor)
+            {
+                controllerInteractor.SendHapticImpulse(amplitude, duration);
+            }
+        }
     }
 
     private void StartSpray()
     {
         isShooting = true;
+        sprayHapticTimer = 0f;
         if (sprayParticles != null && !sprayParticles.isPlaying) sprayParticles.Play();
         if (sprayAudio != null && !sprayAudio.isPlaying) sprayAudio.Play();
     }

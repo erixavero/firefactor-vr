@@ -28,6 +28,12 @@ public class FireObject : MonoBehaviour
 
     private void ExtinguishFire()
     {
+        // Tell the GameManager that this fire has been put out
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnFireExtinguished();
+        }
+        
         Destroy(gameObject);
     }
 }
