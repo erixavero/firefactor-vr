@@ -41,10 +41,12 @@ public class GameManager : MonoBehaviour
         
         UpdateUI();
 
-        if (totalFires == 0)
+        if (totalFires <= 0)
         {
             Debug.Log("All fires extinguished! Fire drill passed.");
-            // Optional: You can trigger a "You Win" UI screen or event here
+            
+            // trigger a "You Win" n restart scene
+            fireCountText.text = "All fires extinguished! Fire drill passed.";
         }
     }
 
