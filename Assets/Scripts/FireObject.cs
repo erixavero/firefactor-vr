@@ -6,6 +6,13 @@ public class FireObject : MonoBehaviour
     [Tooltip("Minimum scale before the fire is completely extinguished.")]
     public float minScale = 0.05f;
 
+    [Header("Smoke Settings")]
+    [Tooltip("Prefab of the black smoke to spawn when extinguished.")]
+    public GameObject smokePrefab;
+
+    [Tooltip("How long (in seconds) the smoke remains after the fire goes out.")]
+    public float smokeDuration = 5f;
+
     // This method is called by the FireExtinguisher raycast every frame it hits the fire
     public void ShrinkFire(float shrinkAmount)
     {
@@ -28,6 +35,11 @@ public class FireObject : MonoBehaviour
 
     private void ExtinguishFire()
     {
+        if (smokePrefab != null)
+        {
+            GameObject smokeInstance = Instantiate(smokePrefab, transform.position, transform.rotation);
+        }
+
         // Tell the GameManager that this fire has been put out
         if (GameManager.Instance != null)
         {
